@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 /* :root {
+=======
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+
+:root {
+>>>>>>> 3f3f06c356f449969119e4374d7f1341cb873a3d
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
