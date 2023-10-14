@@ -1,5 +1,8 @@
 'use client' ;
 import React from 'react'
+import { useState } from 'react'
+import { createUser }
+from '../../utils/APILayer'
 import Link from "next/link"
 import {
     MDBBtn,
@@ -15,7 +18,45 @@ import {
   }
   from 'mdb-react-ui-kit';
 
+
+
 const page = () => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
+  // const handleEmailChange = (e: { target: { value: any; }; }) => {
+  //   const inputEmail = e.target.value;
+  //   setEmail(inputEmail);
+  // }
+
+  // const handlePasswordChange = (e: { target: { value: any; }; }) => {
+  //   const inputPassword = e.target.value;
+  //   setPassword(inputPassword);
+  // }
+
+  // const handlePasswordConfirmationChange = (e: { target: { value: any; }; }) => {
+  //   const inputPasswordConfirmation = e.target.value;
+  //   setPasswordConfirmation(inputPasswordConfirmation);
+  // }
+
+
+  const handleSubmit = async() => {
+    // e.preventDefault();
+    const userData = {
+      email: email,
+      password: password,
+      password_confirmation: passwordConfirmation
+    }
+
+    console.log(userData);
+    const response = createUser(userData);
+    console.log(response);
+  }
+
+
+
   return (
     <>
       <MDBContainer fluid>
@@ -25,7 +66,7 @@ const page = () => {
             <MDBRow>
             <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
 
-                <p classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
                 <div className="d-flex flex-row align-items-center mb-4 ">
                 <MDBIcon fas icon="user me-3" size='lg'/>
@@ -34,24 +75,24 @@ const page = () => {
 
                 <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="envelope me-3" size='lg'/>
-                <MDBInput label='Your Email' id='form2' type='email'/>
+                <MDBInput label='Your Email' id='form2' type='email' onChange={(e) => setEmail(e.target.value)}/>
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="lock me-3" size='lg'/>
-                <MDBInput label='Password' id='form3' type='password'/>
+                <MDBInput label='Password' id='form3' type='password' onChange={(e) => setPassword(e.target.value)} />
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="key me-3" size='lg'/>
-                <MDBInput label='Confirm your password' id='form4' type='password'/>
+                <MDBInput label='Confirm your password' id='form4' type='password' onChange={(e) => setPasswordConfirmation(e.target.value)} />
                 </div>
 
                 <div className='mb-4'>
                 <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='I do accept the Terms and Conditions of your site.' />
                 </div>
 
-                <MDBBtn color='dark' className='mb-4' size='lg'>Register</MDBBtn>
+                <MDBBtn color='dark' className='mb-4' size='lg' onClick={ handleSubmit }>Register</MDBBtn>
                 <div className="text-center">
                 <p>Already have an account? <a href="/login">Login</a></p>
                 </div>
