@@ -23,16 +23,6 @@ import { createLocalUser } from '../../utils/CreateLocal';
 
 const page = () => {
 
-  //mount db and initialize db on load
-  useEffect(() => {
-     const db = getDB();
-     if (!db.users) {
-       db.users = [];
-       setDB(db);
-     }
-     console.log(db);
-   }, []);
-
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
