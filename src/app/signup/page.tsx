@@ -1,8 +1,9 @@
 'use client' ;
 import React from 'react'
 import { useState } from 'react'
-import { createUser }
-from '../../utils/APILayer'
+import { useEffect } from 'react'
+import { createUser } from '../../utils/APILayer'
+import { getDB, setDB } from '../../db/DBLayer'
 import Link from "next/link"
 import {
     MDBBtn,
@@ -17,30 +18,27 @@ import {
     MDBCheckbox
   }
   from 'mdb-react-ui-kit';
-
+import { createLocalUser } from '../../utils/CreateLocalUser';
 
 
 const page = () => {
 
+  //mount db and initialize db on load
+  useEffect(() => {
+     const db = getDB();
+     if (!db.users) {
+       db.users = [];
+       setDB(db);
+     }
+     console.log(db);
+   }, []);
+
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-
-  // const handleEmailChange = (e: { target: { value: any; }; }) => {
-  //   const inputEmail = e.target.value;
-  //   setEmail(inputEmail);
-  // }
-
-  // const handlePasswordChange = (e: { target: { value: any; }; }) => {
-  //   const inputPassword = e.target.value;
-  //   setPassword(inputPassword);
-  // }
-
-  // const handlePasswordConfirmationChange = (e: { target: { value: any; }; }) => {
-  //   const inputPasswordConfirmation = e.target.value;
-  //   setPasswordConfirmation(inputPasswordConfirmation);
-  // }
-
+  
+  const [name, setName] = useState('');
 
   const handleSubmit = async() => {
     // e.preventDefault();
@@ -51,8 +49,14 @@ const page = () => {
     }
 
     console.log(userData);
-    const response = createUser(userData);
-    console.log(response);
+    try {
+      const response = await createUser(userData);
+      console.log(response);
+      createLocalUser(name, response);
+    }
+    catch(error) {
+      console.log(error);
+    }
   }
 
 
