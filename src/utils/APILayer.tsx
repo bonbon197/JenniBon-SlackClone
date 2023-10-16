@@ -19,7 +19,7 @@ async function createUser(userData: { email: string; password: string; password_
 
 //login. save the response headers somewhere to use in the sendMessage function
 async function loginUser(userData: { email: string; password: string; }) {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(`${BASE_URL}sign_in`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

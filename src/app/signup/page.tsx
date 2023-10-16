@@ -18,7 +18,7 @@ import {
     MDBCheckbox
   }
   from 'mdb-react-ui-kit';
-import { createLocalUser } from '../../utils/CreateLocalUser';
+import { createLocalUser } from '../../utils/CreateLocal';
 
 
 const page = () => {
@@ -48,7 +48,6 @@ const page = () => {
       password_confirmation: passwordConfirmation
     }
 
-    console.log(userData);
     try {
       const response = await createUser(userData);
       console.log(response);
@@ -74,7 +73,7 @@ const page = () => {
 
                 <div className="d-flex flex-row align-items-center mb-4 ">
                 <MDBIcon fas icon="user me-3" size='lg'/>
-                <MDBInput label='Your Name' id='form1' type='text' className='w-100'/>
+                <MDBInput label='Your Name' id='form1' type='text' onChange={(e) => setName(e.target.value)} className='w-100'/>
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">
