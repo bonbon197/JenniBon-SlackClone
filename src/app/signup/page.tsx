@@ -1,8 +1,9 @@
 'use client' ;
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { createUser }
-from '../../utils/APILayer'
+import { useEffect } from 'react'
+import { createUser } from '../../utils/APILayer'
+import { getDB, setDB } from '../../db/DBLayer'
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 
@@ -20,6 +21,7 @@ import {
   }
 
   from 'mdb-react-ui-kit';
+<<<<<<< HEAD
   const page = () => {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -35,6 +37,19 @@ import {
   //   setusersAcct(accts)
   // }    
   },[]);
+=======
+import { createLocalUser } from '../../utils/CreateLocal';
+
+
+const page = () => {
+
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  
+  const [name, setName] = useState('');
+>>>>>>> 142e2cde4212f9e84cf6fc8d7f5e10b58e10acd7
 
   const handleSubmit = async() => {
     if(password.length < 6){
@@ -61,7 +76,19 @@ import {
         });
        
     }
+<<<<<<< HEAD
     // console.log(users)
+=======
+
+    try {
+      const response = await createUser(userData);
+      console.log(response);
+      createLocalUser(name, response);
+    }
+    catch(error) {
+      console.log(error);
+    }
+>>>>>>> 142e2cde4212f9e84cf6fc8d7f5e10b58e10acd7
   }
 
   return (
@@ -77,7 +104,11 @@ import {
 
                 <div className="d-flex flex-row align-items-center mb-4 ">
                 <MDBIcon fas icon="user me-3" size='lg'/>
+<<<<<<< HEAD
                 <MDBInput label='Your Name' id='name' type='text' className='w-100' onChange={(e) => setName(e.target.value)}/>
+=======
+                <MDBInput label='Your Name' id='form1' type='text' onChange={(e) => setName(e.target.value)} className='w-100'/>
+>>>>>>> 142e2cde4212f9e84cf6fc8d7f5e10b58e10acd7
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">
