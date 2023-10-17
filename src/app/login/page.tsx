@@ -21,7 +21,6 @@ const page = () => {
 
   },[]);
 
-
   const router = useRouter();
   const [email, setEmail]= useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +53,6 @@ const page = () => {
     
   return (
     <>
-
       <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
         <div className="text-center">
           <h5>SIGN IN</h5>

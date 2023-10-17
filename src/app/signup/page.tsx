@@ -1,7 +1,6 @@
 'use client' ;
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { useEffect } from 'react'
 import { createUser } from '../../utils/APILayer'
 import { getDB, setDB } from '../../db/DBLayer'
 import Link from "next/link"
@@ -21,35 +20,18 @@ import {
   }
 
   from 'mdb-react-ui-kit';
-<<<<<<< HEAD
-  const page = () => {
-  const router = useRouter();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  // const [usersAcct, setusersAcct]= useState([]);
 
-  useEffect(()=>{
-  //   localStorage.setItem("loginUser", JSON.stringify({}))
-  // if(localStorage.getItem('accounts')){
-  //   const accts = localStorage.getItem('accounts');
-  //   setusersAcct(accts)
-  // }    
-  },[]);
-=======
 import { createLocalUser } from '../../utils/CreateLocal';
-
 
 const page = () => {
 
-
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   
   const [name, setName] = useState('');
->>>>>>> 142e2cde4212f9e84cf6fc8d7f5e10b58e10acd7
+
 
   const handleSubmit = async() => {
     if(password.length < 6){
@@ -58,37 +40,34 @@ const page = () => {
       const userData = {
         email: email,
         password: password,
-        password_confirmation: passwordConfirmation,
-        name : name
+        password_confirmation: passwordConfirmation
       }
         const response = createUser(userData);
         response.then(res =>{
           if(res.status === 'error'){
             alert(res.errors.full_messages[0]);
           }else{
-          // usersAcct.push(userData);
-          //   localStorage.setItem('accounts', JSON.stringify(usersAcct))
+            createLocalUser(name, res);
             router.push("/login");
           }
         }).catch(err=>{
           console.log(err)
           alert('Please contact your system provider!')
         });
+        // try {
+        //   const response = await createUser(userData);
+        //   console.log(response);
+        //   createLocalUser(name, response);
+        // }
+        // catch(error) {
+        //   console.log(error);
+        // }
        
     }
-<<<<<<< HEAD
-    // console.log(users)
-=======
 
-    try {
-      const response = await createUser(userData);
-      console.log(response);
-      createLocalUser(name, response);
-    }
-    catch(error) {
-      console.log(error);
-    }
->>>>>>> 142e2cde4212f9e84cf6fc8d7f5e10b58e10acd7
+
+   
+
   }
 
   return (
@@ -104,11 +83,9 @@ const page = () => {
 
                 <div className="d-flex flex-row align-items-center mb-4 ">
                 <MDBIcon fas icon="user me-3" size='lg'/>
-<<<<<<< HEAD
-                <MDBInput label='Your Name' id='name' type='text' className='w-100' onChange={(e) => setName(e.target.value)}/>
-=======
+
                 <MDBInput label='Your Name' id='form1' type='text' onChange={(e) => setName(e.target.value)} className='w-100'/>
->>>>>>> 142e2cde4212f9e84cf6fc8d7f5e10b58e10acd7
+
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">

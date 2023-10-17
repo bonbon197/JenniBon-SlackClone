@@ -22,11 +22,8 @@ async function createUser(userData: { email: string; password: string; password_
 
 //login. save the response headers somewhere to use in the sendMessage function
 async function loginUser(userData: { email: string; password: string; }) {
-<<<<<<< HEAD
-    const response = await fetch('http://206.189.91.54/api/v1/auth/sign_in', {
-=======
+
     const response = await fetch(`${BASE_URL}sign_in`, {
->>>>>>> 142e2cde4212f9e84cf6fc8d7f5e10b58e10acd7
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
