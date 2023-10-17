@@ -1,9 +1,11 @@
 'use client' ;
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { createUser }
 from '../../utils/APILayer'
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
+
 import {
     MDBBtn,
     MDBContainer,
@@ -16,46 +18,51 @@ import {
     MDBIcon,
     MDBCheckbox
   }
+
   from 'mdb-react-ui-kit';
-
-
-
-const page = () => {
-
+  const page = () => {
+  const router = useRouter();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  // const [usersAcct, setusersAcct]= useState([]);
 
-  // const handleEmailChange = (e: { target: { value: any; }; }) => {
-  //   const inputEmail = e.target.value;
-  //   setEmail(inputEmail);
-  // }
-
-  // const handlePasswordChange = (e: { target: { value: any; }; }) => {
-  //   const inputPassword = e.target.value;
-  //   setPassword(inputPassword);
-  // }
-
-  // const handlePasswordConfirmationChange = (e: { target: { value: any; }; }) => {
-  //   const inputPasswordConfirmation = e.target.value;
-  //   setPasswordConfirmation(inputPasswordConfirmation);
-  // }
-
+  useEffect(()=>{
+  //   localStorage.setItem("loginUser", JSON.stringify({}))
+  // if(localStorage.getItem('accounts')){
+  //   const accts = localStorage.getItem('accounts');
+  //   setusersAcct(accts)
+  // }    
+  },[]);
 
   const handleSubmit = async() => {
-    // e.preventDefault();
-    const userData = {
-      email: email,
-      password: password,
-      password_confirmation: passwordConfirmation
+    if(password.length < 6){
+      alert('password must be alteast six characters');
+    }else{
+      const userData = {
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+        name : name
+      }
+        const response = createUser(userData);
+        response.then(res =>{
+          if(res.status === 'error'){
+            alert(res.errors.full_messages[0]);
+          }else{
+          // usersAcct.push(userData);
+          //   localStorage.setItem('accounts', JSON.stringify(usersAcct))
+            router.push("/login");
+          }
+        }).catch(err=>{
+          console.log(err)
+          alert('Please contact your system provider!')
+        });
+       
     }
-
-    console.log(userData);
-    const response = createUser(userData);
-    console.log(response);
+    // console.log(users)
   }
-
-
 
   return (
     <>
@@ -70,22 +77,22 @@ const page = () => {
 
                 <div className="d-flex flex-row align-items-center mb-4 ">
                 <MDBIcon fas icon="user me-3" size='lg'/>
-                <MDBInput label='Your Name' id='form1' type='text' className='w-100'/>
+                <MDBInput label='Your Name' id='name' type='text' className='w-100' onChange={(e) => setName(e.target.value)}/>
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="envelope me-3" size='lg'/>
-                <MDBInput label='Your Email' id='form2' type='email' onChange={(e) => setEmail(e.target.value)}/>
+                <MDBInput label='Your Email' id='email' type='email' onChange={(e) => setEmail(e.target.value)}/>
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="lock me-3" size='lg'/>
-                <MDBInput label='Password' id='form3' type='password' onChange={(e) => setPassword(e.target.value)} />
+                <MDBInput label='Password' id='password' type='password' onChange={(e) => setPassword(e.target.value)} />
                 </div>
 
                 <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="key me-3" size='lg'/>
-                <MDBInput label='Confirm your password' id='form4' type='password' onChange={(e) => setPasswordConfirmation(e.target.value)} />
+                <MDBInput label='Confirm your password' id='confirmPassword' type='password' onChange={(e) => setPasswordConfirmation(e.target.value)} />
                 </div>
 
                 <div className='mb-4'>

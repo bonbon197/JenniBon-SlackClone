@@ -1,3 +1,4 @@
+
 const BASE_URL = 'http://206.189.91.54/api/v1/auth/';
 
 // register user data, function should only be passed an object with email, password, and password_confirmation
@@ -12,14 +13,16 @@ async function createUser(userData: { email: string; password: string; password_
             "password": userData.password,
             "password_confirmation": userData.password_confirmation
         })
-    });
+        
+    })
     const data = await response.json();
     return data;
 }
 
+
 //login. save the response headers somewhere to use in the sendMessage function
 async function loginUser(userData: { email: string; password: string; }) {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch('http://206.189.91.54/api/v1/auth/sign_in', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -157,6 +160,10 @@ async function getUsers(userData: { access_token: any; client: any; uid: any; ex
     const data = await response.json();
     return data;
 }
+
+
+
+
 
 export {
     createUser,

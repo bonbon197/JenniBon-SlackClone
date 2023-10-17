@@ -4,8 +4,6 @@ import styles from './page.module.css'
 import Link from "next/link"
 import { MDBBtn } from 'mdb-react-ui-kit';
 
-
-
 export default function Home() {
   return (
   
