@@ -1,3 +1,4 @@
+
 const BASE_URL = 'http://206.189.91.54/api/v1/auth/';
 
 // register user data, function should only be passed an object with email, password, and password_confirmation
@@ -12,16 +13,20 @@ async function createUser(userData: { email: string; password: string; password_
             "password": userData.password,
             "password_confirmation": userData.password_confirmation
         })
-    });
+        
+    })
     const data = await response.json();
     return data;
 }
 
+
 //login. save the response headers somewhere to use in the sendMessage function
 async function loginUser(userData: { email: string; password: string; }) {
-    const response = await fetch(`${BASE_URL}`, {
+
+    const response = await fetch(`${BASE_URL}sign_in`, {
         method: 'POST',
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -30,7 +35,22 @@ async function loginUser(userData: { email: string; password: string; }) {
         })
     });
     const data = await response.json();
-    return data;
+
+    const headers = response.headers;
+
+    const newData = {
+        headers: {
+        access_token: headers.get('access-token'),
+        client: headers.get('client'),
+        uid: headers.get('uid'),
+        expiry: headers.get('expiry'),
+        },
+        data: data
+    }
+
+
+    console.log(newData)
+    return newData;
 }
 
 //send message. Get header data from the login response headers
@@ -51,6 +71,7 @@ async function sendMessage(userData: { access_token: string; client: string; uid
         })
     });
     const data = await response.json();
+    console.log(data)
     return data;
 }
 
@@ -157,6 +178,10 @@ async function getUsers(userData: { access_token: any; client: any; uid: any; ex
     const data = await response.json();
     return data;
 }
+
+
+
+
 
 export {
     createUser,
