@@ -30,8 +30,9 @@ const page = () => {
     }
       const response = loginUser(userData);
       response.then(res =>{
-        if(res.success === false){
-          alert(res.errors[0]);
+        console.log(res);
+        if(res.data.success === false){
+          alert(res.data.errors[0]);
         }else{
           const saveUser = {
             id:res.data.id,
