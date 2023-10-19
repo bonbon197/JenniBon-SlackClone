@@ -1,5 +1,6 @@
 'use client' ;
 import React from 'react';
+
 import Link from "next/link";
 import { useState , useEffect } from 'react'
 import { loginUser }
@@ -16,11 +17,8 @@ import {
   from 'mdb-react-ui-kit';
 
 const page = () => {
+
   localStorage.setItem("loginUser", JSON.stringify({}))
-  useEffect(()=>{
-
-  },[]);
-
   const router = useRouter();
   const [email, setEmail]= useState('');
   const [password, setPassword] = useState('');
@@ -34,9 +32,7 @@ const page = () => {
       response.then(res =>{
         if(res.success === false){
           alert(res.errors[0]);
-          console.log(res);
         }else{
-          console.log(res);
           const saveUser = {
             id:res.data.id,
             email: email,

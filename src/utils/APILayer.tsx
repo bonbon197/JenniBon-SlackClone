@@ -26,6 +26,7 @@ async function loginUser(userData: { email: string; password: string; }) {
     const response = await fetch(`${BASE_URL}sign_in`, {
         method: 'POST',
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
