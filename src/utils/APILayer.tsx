@@ -35,7 +35,22 @@ async function loginUser(userData: { email: string; password: string; }) {
         })
     });
     const data = await response.json();
-    return data;
+
+    const headers = response.headers;
+
+    const newData = {
+        headers: {
+        access_token: headers.get('access-token'),
+        client: headers.get('client'),
+        uid: headers.get('uid'),
+        expiry: headers.get('expiry'),
+        },
+        data: data
+    }
+
+
+    console.log(newData)
+    return newData;
 }
 
 //send message. Get header data from the login response headers
@@ -56,6 +71,7 @@ async function sendMessage(userData: { access_token: string; client: string; uid
         })
     });
     const data = await response.json();
+    console.log(data)
     return data;
 }
 
