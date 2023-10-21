@@ -1,5 +1,5 @@
 import { getDB, setDB } from "../db/DBLayer";
-import { User } from "../db/models/user_model";
+import { User } from "../db/models/models";
 
 function createLocalUser(name: string, response: any) {
     const userData = JSON.parse(JSON.stringify(response));
@@ -20,6 +20,7 @@ function createLocalUser(name: string, response: any) {
 
 function createLocalChannels(){}
 function createLocalMessages(){}
+function createLocalSession(){}
 
 
 export { createLocalUser };
