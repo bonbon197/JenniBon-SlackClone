@@ -54,7 +54,7 @@ async function loginUser(userData: { email: string; password: string; }) {
 }
 
 //send message. Get header data from the login response headers
-async function sendMessage(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id: string; receiver_class: any; body: any; }) {
+async function sendMessage(userData: { access_token: string; client: string; uid: number; expiry: number; receiver_id: string; receiver_class: any; body: any; }) {
     const response = await fetch(`${BASE_URL}messages`, {
         method: 'POST',
         headers: {
@@ -76,7 +76,7 @@ async function sendMessage(userData: { access_token: string; client: string; uid
 }
 
 //get messages. Get header data from the login response headers
-async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: Date; }) {
+async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: number; }) {
     const response = await fetch(`${BASE_URL}messages`, {
         method: 'GET',
         headers: {
@@ -92,7 +92,7 @@ async function getMessages(userData: { access_token: string; client: string; uid
 }
 
 //create channel with members
-async function createChannel(userData: { access_token: string; client: string; uid: number; expiry: Date; name: string; user_ids: number; }) {
+async function createChannel(userData: { access_token: string; client: string; uid: number; expiry: number; name: string; user_ids: number; }) {
     const response = await fetch(`${BASE_URL}channels`, {
         method: 'POST',
         headers: {
@@ -112,7 +112,7 @@ async function createChannel(userData: { access_token: string; client: string; u
 }
 
 //get all user's channels
-async function getChannels(userData: { access_token: string; client: string; uid:number; expiry: Date; }) {
+async function getChannels(userData: { access_token: string; client: string; uid:number; expiry: number; }) {
     const response = await fetch(`${BASE_URL}channels`, {
         method: 'GET',
         headers: {
@@ -128,7 +128,7 @@ async function getChannels(userData: { access_token: string; client: string; uid
 }
 
 //get channel details via channel id
-async function getChannelDetails(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: Date; }) {
+async function getChannelDetails(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: number; }) {
     const response = await fetch(`${BASE_URL}channels/${userData.channel_id}`, {
         method: 'GET',
         headers: {
@@ -144,7 +144,7 @@ async function getChannelDetails(userData: { channel_id: number; access_token: s
 }
 
 //add member to a channel
-async function addMember(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: Date; id: number; member_id: number; }) {
+async function addMember(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: number; id: number; member_id: number; }) {
     const response = await fetch(`${BASE_URL}channels/${userData.channel_id}/add_member`, {
         method: 'POST',
         headers: {

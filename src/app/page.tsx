@@ -13,7 +13,8 @@ export default function Home() {
     if (!db.users) {
       setDB({
         users: [],
-        channels: []
+        channels: [],
+        session: {}
       })
     }
   }, [])

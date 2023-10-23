@@ -22,25 +22,23 @@ function createLocalUser(name: string,
 function createLocalChannels(){}
 function createLocalMessages(){}
 
-//pass in the user id and some of the header data from the login response headers
-function createLocalSession(data: { 
-                                    id: any; 
-                                    access_token: any; 
-                                    client: any; 
-                                    uid: any; 
-                                    expiry: any; 
+//pass in the user id and some of the header data from the login response headers. Local session specifies who is logged in. Data saved can be used to be a reference when sending requests to external endpoints
+function createLocalSession(data: {
+                                    headers: any; 
                                 }){
     const db = getDB();
     db.session = {
-        user_id: data.id,
-        access_token: data.access_token,
-        client: data.client,
-        uid: data.uid,
-        expiry: data.expiry
+        uid: data.headers.uid,
+        access_token: data.headers.access_token,
+        client: data.headers.client,
+        expiry: data.headers.expiry
     }
     setDB(db);
 }
 
 
-export { createLocalUser };
+export { 
+        createLocalUser,
+        createLocalSession
+       };
 
