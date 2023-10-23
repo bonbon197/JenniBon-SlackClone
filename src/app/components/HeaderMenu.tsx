@@ -22,9 +22,12 @@ const Header = () => {
   // const [showBasic, setShowBasic] = useState(false);
   const [receiverEmail, setReceiverEmail] = useState('');
   const [basicModal, setBasicModal] = useState(false);
+  const [channelModal, setChannelModal] = useState(false);
+  const [channelName, setChannelName] = useState('');
   const headers = JSON.parse(localStorage.getItem('loginUser'));
 
   const toggleShow = () => setBasicModal(!basicModal);
+  const channelModalShow =()=> setChannelModal(!channelModal);
   const handleGetEmail = () => {
     const userData = {
       access_token: headers.access_token,
@@ -66,6 +69,10 @@ const Header = () => {
       }
     })
   }
+
+  const handleCreateChannel = ()=>{
+    console.log('channel')
+  }
   return (
     <>
       <MDBNavbar expand='lg' light bgColor='light' className='sticky'>
@@ -76,6 +83,9 @@ const Header = () => {
             <a href='/login' > <MDBBtn className='text-dark' color='light'>Logout</MDBBtn></a>
             <MDBBtn onClick={toggleShow} className='text-dark' color='light'>
               New Message
+            </MDBBtn>
+            <MDBBtn onClick={channelModalShow} className='text-dark' color='light'>
+              Create Channel
             </MDBBtn>
           </nav>
         </MDBContainer>
@@ -97,6 +107,27 @@ const Header = () => {
                 Close
               </MDBBtn>
               <MDBBtn onClick={handleGetEmail}>OK</MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+
+      <MDBModal show={channelModal} setShow={setChannelModal} tabIndex='-1'>
+        <MDBModalDialog>
+          <MDBModalContent>
+            <MDBModalHeader>
+              <MDBModalTitle>Create Channel</MDBModalTitle>
+              <MDBBtn className='btn-close' color='none' onClick={channelModalShow}></MDBBtn>
+            </MDBModalHeader>
+            <MDBModalBody>
+              <MDBInput label="channelName" id="channelName" onChange={(e) => setChannelName(e.target.value)} />
+            </MDBModalBody>
+
+            <MDBModalFooter>
+              <MDBBtn color='secondary' onClick={channelModalShow}>
+                Close
+              </MDBBtn>
+              <MDBBtn onClick={handleCreateChannel}>OK</MDBBtn>
             </MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>
