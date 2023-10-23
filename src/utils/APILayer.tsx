@@ -55,7 +55,7 @@ async function loginUser(userData: { email: string; password: string; }) {
 
 //send message. Get header data from the login response headers
 async function sendMessage(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id: string; receiver_class: any; body: any; }) {
-    const response = await fetch(`${BASE_URL}messages`, {
+    const response = await fetch(`http://206.189.91.54/api/v1/messages`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -71,13 +71,12 @@ async function sendMessage(userData: { access_token: string; client: string; uid
         })
     });
     const data = await response.json();
-    console.log(data)
     return data;
 }
 
-//get messages. Get header data from the login response headers
-async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: Date; }) {
-    const response = await fetch(`${BASE_URL}messages`, {
+//get messages. Get header data from the login response headers 
+async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id:string}) {
+    const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${userData.receiver_id}&receiver_class=User`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -88,7 +87,9 @@ async function getMessages(userData: { access_token: string; client: string; uid
         },
     });
     const data = await response.json();
-    return data;
+    console.log(data)
+        return data;
+    
 }
 
 //create channel with members
@@ -165,7 +166,7 @@ async function addMember(userData: { channel_id: number; access_token: string; c
 
 //list of all users
 async function getUsers(userData: { access_token: any; client: any; uid: any; expiry: any; }) {
-    const response = await fetch(`${BASE_URL}users`, {
+    const response = await fetch(`http://206.189.91.54/api/v1/users`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

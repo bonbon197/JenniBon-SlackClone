@@ -1,5 +1,6 @@
-'use client' ;
+'use client';
 import React from 'react'
+import { useState, useEffect } from 'react'
 import ChatBox from '../components/ChatBox';
 import SideBarName from '../components/SideBarName';
 import HeaderMenu from '../components/HeaderMenu';
@@ -7,92 +8,31 @@ import {
   MDBContainer,
   MDBRow,
   MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBIcon,
-  MDBBtn,
-  MDBTypography,
-  MDBTextArea,
-  MDBCardHeader,
 } from "mdb-react-ui-kit";
-
 const page = () => {
+  const headers = JSON.parse(localStorage.getItem('loginUser'));
+  const getActiveInChatBox = JSON.parse(localStorage.getItem('activeInChatBox'));
+  const [activeInChatBox, setActiveInChatBox] = useState(getActiveInChatBox)
 
-  
-  
-  
+
+  // console.log(activeInChatBox.status);
+
   return (
     <>
-      <MDBContainer fluid className="py-5 gradient-custom">
-      <MDBRow>
-        <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
-          
-        <HeaderMenu />
-        <SideBarName />
-        </MDBCol>
-
-        <MDBCol md="6" lg="7" xl="8">
-        <ChatBox />
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+      <HeaderMenu />
+      <MDBContainer fluid className="py-5 gradient-custom mainBody">
+        <MDBRow>
+          <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
+            <SideBarName />
+          </MDBCol>
+          <MDBCol md="6" lg="7" xl="8" className='scroll'>
+            {activeInChatBox.status === 'online' ? <ChatBox /> : ''}
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
     </>
   )
 }
 
 export default page
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react'
-// import ChatBox from '../components/ChatBox';
-// import SideBar from '../components/SideBar';
-// // import Header from '../components/Header';
-
-// const page = () => {
-//   return (
-//     <>
-
-//       <ChatBox />
-//       {/* <SideBar /> */}
-//     </>
-//   )
-// }
-
-// export default page
