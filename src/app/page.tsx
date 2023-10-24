@@ -14,7 +14,7 @@ export default function Home() {
       setDB({
         users: [],
         channels: [],
-        messages: []
+        session: {}
       })
     }
   }, [])
