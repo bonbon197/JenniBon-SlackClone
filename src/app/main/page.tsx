@@ -1,6 +1,7 @@
 'use client';
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { getDB } from '@/db/DBLayer';
 import ChatBox from '../components/ChatBox';
 import SideBarName from '../components/SideBarName';
 import HeaderMenu from '../components/HeaderMenu';
@@ -9,9 +10,9 @@ import {
   MDBRow,
   MDBCol,
 } from "mdb-react-ui-kit";
+
 const page = () => {
-  const headers = JSON.parse(localStorage.getItem('loginUser'));
-  const getActiveInChatBox = JSON.parse(localStorage.getItem('activeInChatBox'));
+  const { session: headers, session: getActiveInChatBox } = getDB();  
   const [activeInChatBox, setActiveInChatBox] = useState(getActiveInChatBox)
 
 

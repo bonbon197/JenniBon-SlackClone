@@ -24,15 +24,18 @@ function createLocalMessages(){}
 function createLocalPrivateMessagesHistory(){}
 
 //pass in the user id and some of the header data from the login response headers. Local session specifies who is logged in. Data saved can be used to be a reference when sending requests to external endpoints
-function createLocalSession(data: {
-                                    headers: any; 
-                                }){
+function createLocalSession(data: any){
     const db = getDB();
     db.session = {
         uid: data.headers.uid,
         access_token: data.headers.access_token,
         client: data.headers.client,
-        expiry: data.headers.expiry
+        expiry: data.headers.expiry,
+        //integrated activeUser in session
+        status: 'offline',
+        receiver_id: '',
+        receiver_email: '',
+        receiver_class: 'User'
     }
     setDB(db);
 }
