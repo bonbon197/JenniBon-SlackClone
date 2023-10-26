@@ -21,6 +21,7 @@ import {
   MDBInput,
 } from "mdb-react-ui-kit";
 import { getEventListeners } from 'events';
+import { createLocalPrivateMessagesHistory } from '@/utils/CreateLocal';
 
 
 const chatbox = () => {
@@ -44,6 +45,7 @@ const chatbox = () => {
     emailExist = true;
   }
 
+  //this only sends messages to users
   const handleSendMess = () => {
     if (emailExist) {
       const SendMessUserData = {
@@ -55,6 +57,7 @@ const chatbox = () => {
         expiry: headers.expiry,
         uid: headers.uid
       }
+      createLocalPrivateMessagesHistory(SendMessUserData);
       const response = sendMessage(SendMessUserData);
       console.log(response);
       response.then(res => {
