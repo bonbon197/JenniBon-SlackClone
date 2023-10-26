@@ -21,6 +21,7 @@ function createLocalUser(name: string,
 
 function createLocalChannels(){}
 function createLocalMessages(){}
+function createLocalPrivateMessagesHistory(){}
 
 //pass in the user id and some of the header data from the login response headers. Local session specifies who is logged in. Data saved can be used to be a reference when sending requests to external endpoints
 function createLocalSession(data: {

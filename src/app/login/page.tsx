@@ -3,8 +3,8 @@ import React from 'react';
 
 import Link from "next/link";
 import { useState, useEffect } from 'react'
-import { loginUser }
-  from '../../utils/APILayer'
+import { loginUser } from '../../utils/APILayer'
+import { getDB, setDB } from '../../db/DBLayer';
 import { useRouter } from 'next/navigation'
 
 import {
@@ -18,7 +18,6 @@ import {
 
 const page = () => {
 
-  localStorage.setItem("loginUser", JSON.stringify({}))
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,7 +27,9 @@ const page = () => {
       email: email,
       password: password
     }
+
     const response = loginUser(userData);
+    
     response.then(res => {
       console.log(res);
       if (res.data.success === false) {
@@ -46,18 +47,21 @@ const page = () => {
         }
         // console.log(saveUser)
         localStorage.setItem('loginUser', JSON.stringify(saveUser));
-        const headers = JSON.parse(localStorage.getItem('loginUser'));
-        const activeInChatBox = {
-          status: 'offline',
-          receiver_id: '',
-          receiver_email: '',
-          receiver_class: "User",
-          access_token: headers.access_token,
-          client: headers.client,
-          expiry: headers.expiry,
-          uid: headers.uid
+        const user = localStorage.getItem('loginUser');
+        if (user) {
+          const headers = JSON.parse(user);
+          const activeInChatBox = {
+            status: 'offline',
+            receiver_id: '',
+            receiver_email: '',
+            receiver_class: "User",
+            access_token: headers.access_token,
+            client: headers.client,
+            expiry: headers.expiry,
+            uid: headers.uid
+          }
+          localStorage.setItem('activeInChatBox', JSON.stringify(activeInChatBox));
         }
-        localStorage.setItem('activeInChatBox', JSON.stringify(activeInChatBox));
         router.push("/main");
       }
     }).catch(err => {
