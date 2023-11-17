@@ -4,6 +4,7 @@ class User {
     email: string;
     password: string;
     messages: {};
+    messageHistory: {};
     
     constructor(id: string, name: string, email: string, password: string) {
         this.id = id;
@@ -11,6 +12,7 @@ class User {
         this.email = email;
         this.password = password;
         this.messages = {};
+        this.messageHistory = {};
     }
 }
 
