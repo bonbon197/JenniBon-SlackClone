@@ -1,190 +1,92 @@
-
 const BASE_URL = 'http://206.189.91.54/';
 
-// register user data, function should only be passed an object with email, password, and password_confirmation
-async function createUser(userData: { email: string; password: string; password_confirmation: string; }) {
-    const response = await fetch(`${BASE_URL}api/v1/auth/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "email": userData.email,
-            "password": userData.password,
-            "password_confirmation": userData.password_confirmation
-        })
-        
-    })
-    const data = await response.json();
-    return data;
-}
+async function fetchWithHeaders(url: string, method: string, userData: any) {
+    try {
+        const response = await fetch(`${BASE_URL}${url}`, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                ...(userData.headers || {}),
+            },
+            body: JSON.stringify(userData.body),
+        });
 
+        const data = await response.json();
 
-//login. save the response headers somewhere to use in the sendMessage function
-async function loginUser(userData: { email: string; password: string; }) {
+        return {
+            headers: {
+                access_token: response.headers.get('access-token') || '',
+                client: response.headers.get('client') || '',
+                uid: response.headers.get('uid') || '',
+                expiry: response.headers.get('expiry') || '',
+            },
+            data: data,
+        };
+    } catch (error) {
 
-    const response = await fetch(`${BASE_URL}api/v1/auth/sign_in`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "email": userData.email,
-            "password": userData.password,
-        })
-    });
-    const data = await response.json();
+        console.error('Error in fetchWithHeaders:', error);
 
-    const headers = response.headers;
-
-    const newData = {
-        headers: {
-        access_token: headers.get('access-token'),
-        client: headers.get('client'),
-        uid: headers.get('uid'),
-        expiry: headers.get('expiry'),
-        },
-        data: data
+        return {
+            headers: {},
+            data: {},
+        };
     }
-
-
-    console.log(newData)
-    return newData;
-}
-
-//send message. Get header data from the login response headers
-async function sendMessage(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id: string; receiver_class: any; body: any; }) {
-    const response = await fetch(`${BASE_URL}/api/v1/messages`, {
-
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'access-token': userData.access_token,
-            'client': userData.client,
-            'uid': userData.uid.toString(),
-            'expiry': userData.expiry.toString(),
-        },
-        body: JSON.stringify({
-            "receiver_id": userData.receiver_id,
-            "receiver_class": userData.receiver_class,
-            "body": userData.body,
-        })
-    });
-    const data = await response.json();
-    return data;
-}
-
-
-//get messages. Get header data from the login response headers 
-async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id:string}) {
-    const response = await fetch(`${BASE_URL}/api/v1/messages?receiver_id=${userData.receiver_id}&receiver_class=User`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'access-token': userData.access_token,
-            'client': userData.client,
-            'uid': userData.uid.toString(),
-            'expiry': userData.expiry.toString(),
-        },
-    });
-    const data = await response.json();
-    console.log(data)
-        return data;
-    
-}
-
-//create channel with members
-async function createChannel(userData: { access_token: string; client: string; uid: number; expiry: number; name: string; user_ids: number; }) {
-    const response = await fetch(`${BASE_URL}api/v1/channels`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'access-token': userData.access_token,
-            'client': userData.client,
-            'uid': userData.uid.toString(),
-            'expiry': userData.expiry.toString(),
-        },
-        body: JSON.stringify({
-            "name": userData.name,
-            "user_ids": userData.user_ids,
-        })
-    });
-    const data = await response.json();
-    return data;
-}
-
-//get all user's channels
-async function getChannels(userData: { access_token: string; client: string; uid:number; expiry: number; }) {
-    const response = await fetch(`${BASE_URL}api/v1/channels`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'access-token': userData.access_token,
-            'client': userData.client,
-            'uid': userData.uid.toString(),
-            'expiry': userData.expiry.toString(),
-        },
-    });
-    const data = await response.json();
-    return data;
-}
-
-//get channel details via channel id
-async function getChannelDetails(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: number; }) {
-    const response = await fetch(`${BASE_URL}/api/v1/channels/${userData.channel_id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'access-token': userData.access_token,
-            'client': userData.client,
-            'uid': userData.uid.toString(),
-            'expiry': userData.expiry.toString(),
-        }
-    });
-    const data = await response.json();
-    return data;
-}
-
-//add member to a channel
-async function addMember(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: number; id: number; member_id: number; }) {
-    const response = await fetch(`${BASE_URL}/api/v1/channel/add_member`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'access-token': userData.access_token,
-            'client': userData.client,
-            'uid': userData.uid.toString(),
-            'expiry': userData.expiry.toString(),
-        },
-        body: JSON.stringify({
-            "id": userData.id,
-            "member_id": userData.id,
-        })
-    });
-    const data = await response.json();
-    return data;
-}
-
-//list of all users
-async function getUsers(userData: { access_token: any; client: any; uid: any; expiry: any; }) {
-    const response = await fetch(`${BASE_URL}api/v1/users`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'access-token': userData.access_token,
-            'client': userData.client,
-            'uid': userData.uid,
-            'expiry': userData.expiry,
-        }
-    });
-    const data = await response.json();
-    return data;
 }
 
 
 
+async function loginUser(userData: { email: string; password: string; }) {
+    try {
+        const { headers, data } = await fetchWithHeaders('api/v1/auth/sign_in', 'POST', {
+            body: {
+                "email": userData.email,
+                "password": userData.password,
+            }
+        });
 
+        return { headers: headers || {}, data };
+    } catch (error) {
+
+        console.error('Error in loginUser:', error);
+
+        return {
+            headers: {},
+            data: {},
+        };
+    }
+}
+
+async function createUser(userData: { email: string; password: string; password_confirmation: string; }) {
+    return fetchWithHeaders('api/v1/auth/', 'POST', { body: userData });
+}
+
+async function sendMessage(userData: { access_token: string; client: string; uid: number; expiry: string; receiver_id: string; receiver_class: any; body: any; }) {
+    return fetchWithHeaders('/api/v1/messages', 'POST', userData);
+}
+
+async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: string; receiver_id: string }) {
+    return fetchWithHeaders(`/api/v1/messages?receiver_id=${userData.receiver_id}&receiver_class=User`, 'GET', userData);
+}
+
+async function createChannel(userData: { access_token: string; client: string; uid: number; expiry: string; name: string; user_ids: number[]; }) {
+    return fetchWithHeaders('/api/v1/channels', 'POST', userData);
+}
+
+async function getChannels(userData: { access_token: string; client: string; uid: number; expiry: string; }) {
+    return fetchWithHeaders('/api/v1/channels', 'GET', userData);
+}
+
+async function getChannelDetails(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: string; }) {
+    return fetchWithHeaders(`/api/v1/channels/${userData.channel_id}`, 'GET', userData);
+}
+
+async function addMember(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: string; id: number; member_id: number; }) {
+    return fetchWithHeaders('/api/v1/channel/add_member', 'POST', userData);
+}
+
+async function getUsers(userData: { access_token: string; client: string; uid: string; expiry: string; }) {
+    return fetchWithHeaders('/api/v1/users', 'GET', userData);
+}
 
 export {
     createUser,
@@ -195,4 +97,5 @@ export {
     getChannels,
     getChannelDetails,
     addMember,
-    getUsers,}
+    getUsers,
+};
