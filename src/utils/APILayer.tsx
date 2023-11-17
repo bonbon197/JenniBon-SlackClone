@@ -1,9 +1,9 @@
 
-const BASE_URL = 'http://206.189.91.54/api/v1/auth/';
+const BASE_URL = 'http://206.189.91.54/api/v1/';
 
 // register user data, function should only be passed an object with email, password, and password_confirmation
 async function createUser(userData: { email: string; password: string; password_confirmation: string; }) {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(`${BASE_URL}auth/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ async function createUser(userData: { email: string; password: string; password_
 //login. save the response headers somewhere to use in the sendMessage function
 async function loginUser(userData: { email: string; password: string; }) {
 
-    const response = await fetch(`${BASE_URL}sign_in`, {
+    const response = await fetch(`${BASE_URL}auth/sign_in`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -54,7 +54,7 @@ async function loginUser(userData: { email: string; password: string; }) {
 
 //send message. Get header data from the login response headers
 async function sendMessage(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id: string; receiver_class: any; body: any; }) {
-    const response = await fetch(`http://206.189.91.54/api/v1/messages`, {
+    const response = await fetch(`${BASE_URL}messages`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ async function sendMessage(userData: { access_token: string; client: string; uid
 
 //get messages. Get header data from the login response headers 
 async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id:string;receiver_class:string}) {
-    const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${userData.receiver_id}&receiver_class=${userData.receiver_class}`, {
+    const response = await fetch(`${BASE_URL}messages?receiver_id=${userData.receiver_id}&receiver_class=${userData.receiver_class}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ async function getMessages(userData: { access_token: string; client: string; uid
 
 //create channel with members
 async function createChannel(userData: { access_token: string; client: string; uid: number; expiry: Date; name: string; user_ids: number; }) {
-    const response = await fetch(`http://206.189.91.54/api/v1/channels`, {
+    const response = await fetch(`${BASE_URL}channels`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ async function createChannel(userData: { access_token: string; client: string; u
 
 //get all user's channels
 async function getChannels(userData: { access_token: string; client: string; uid:number; expiry: Date; }) {
-    const response = await fetch(`http://206.189.91.54/api/v1/channels`, {
+    const response = await fetch(`${BASE_URL}channels`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ async function getChannels(userData: { access_token: string; client: string; uid
 
 //get channel details via channel id
 async function getChannelDetails(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: Date; }) {
-    const response = await fetch(`http://206.189.91.54/api/v1/channels/${userData.channel_id}`, {
+    const response = await fetch(`${BASE_URL}channels/${userData.channel_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ async function getChannelDetails(userData: { channel_id: number; access_token: s
 
 //add member to a channel
 async function addMember(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: Date; id: number; member_id: number; }) {
-    const response = await fetch(`http://206.189.91.54/api/v1/channel/add_member`, {
+    const response = await fetch(`${BASE_URL}channel/add_member`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -165,7 +165,7 @@ async function addMember(userData: { channel_id: number; access_token: string; c
 
 //list of all users
 async function getUsers(userData: { access_token: any; client: any; uid: any; expiry: any; }) {
-    const response = await fetch(`http://206.189.91.54/api/v1/users`, {
+    const response = await fetch(`${BASE_URL}users`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
