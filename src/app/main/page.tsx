@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import ChatBox from '../components/ChatBox';
 import SideBarName from '../components/SideBarName';
 import HeaderMenu from '../components/HeaderMenu';
+import '../css/main.css'
 import {
   MDBContainer,
   MDBRow,
@@ -14,6 +15,12 @@ const page = () => {
   const getActiveInChatBox = JSON.parse(localStorage.getItem('activeInChatBox'));
   const [activeInChatBox, setActiveInChatBox] = useState(getActiveInChatBox)
 
+  localStorage.setItem('createdChannel', JSON.stringify({
+    name:'updateChannel',
+    status: false
+  }))
+  
+
 
   // console.log(activeInChatBox.status);
 
@@ -22,7 +29,7 @@ const page = () => {
       <HeaderMenu />
       <MDBContainer fluid className="py-5 gradient-custom mainBody">
         <MDBRow>
-          <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
+          <MDBCol md="6" lg="5" xl="4" className=" mb-4 mb-md-0 ">
             <SideBarName />
           </MDBCol>
           <MDBCol md="6" lg="7" xl="8" className='scroll'>

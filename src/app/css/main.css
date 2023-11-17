@@ -1,0 +1,61 @@
+
+/* @import url('https://fonts.googleapis.com/css2?family=Tourney:wght@100&display=swap'); */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Tourney:wght@900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Autour+One&family=Tourney:wght@900&display=swap');
+
+
+
+.sidebarContainer{
+    font-family: 'Tourney', sans-serif !important;
+}
+
+.signinContainer{
+  font-family: 'Tourney', sans-serif !important;
+}
+
+.signupContainer{
+    font-family: 'Tourney', sans-serif !important;
+    background-color: black !important;
+    color: white !important;
+}
+
+.signupCard {
+    --mdb-card-bg: black !important;
+    color: white !important;
+}
+
+.signupInput::placeholder{
+    color: gray !important;
+  opacity: 1 !important;
+  text-align: center;
+  font-family: 'Tourney', sans-serif !important;
+  
+}
+
+.signupInput{
+    font-family: 'Autour One', sans-serif !important;
+    color: white !important;
+}
+
+.inputsignin{
+    color: white !important;
+    background-color: rgba(24, 24, 16, 0.2) !important;
+    /* background: rgba(24, 24, 16, 0.2); */
+    border-radius: 2em;
+    border-color:#07122e !important;
+    font-family: 'Autour One', sans-serif !important;
+  
+  }
+
+  .inputsignin::placeholder{
+    color: gray !important;
+    opacity: 1 !important;
+    text-align: center;
+    font-family: 'Tourney', sans-serif !important;
+  
+  }
+
+.channelListname{
+  background-color: black !important;
+}

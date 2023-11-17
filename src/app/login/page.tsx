@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { loginUser }
   from '../../utils/APILayer'
 import { useRouter } from 'next/navigation'
+import '../css/main.css'
 
 import {
   MDBContainer,
@@ -68,15 +69,15 @@ const page = () => {
 
   return (
     <>
-      <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
+      <MDBContainer className="p-3 my-5 d-flex flex-column w-50 signinContainer">
         <div className="text-center">
-          <h5>SIGN IN</h5>
+          <h3>SIGN IN</h3>
         </div>
-        <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' onChange={(e) => setEmail(e.target.value)} />
-        <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' onChange={(e) => setPassword(e.target.value)} />
+        <MDBInput wrapperClass='mb-4' className="inputsignin" placeholder="Email Address"  id='form1' type='email' onChange={(e) => setEmail(e.target.value)} />
+        <MDBInput wrapperClass='mb-4' className="inputsignin" placeholder="Password"  id='form2' type='password' onChange={(e) => setPassword(e.target.value)} />
         <div className="text-center">
 
-          <MDBBtn color='dark' className='mb-4' size='lg' onClick={handleSignin}>Sign in</MDBBtn>
+          <MDBBtn  className='mb-4 btnsignin' size='lg' onClick={handleSignin}>Sign in</MDBBtn>
           <p>No account yet? <a href="/signup">Register</a></p>
         </div>
       </MDBContainer>

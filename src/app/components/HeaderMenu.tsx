@@ -3,7 +3,10 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Link from "next/link"
 import { getUsers } from '../../utils/APILayer'
+import { createChannel } from '../../utils/APILayer'
+
 import Spinner from 'react-bootstrap/Spinner';
+import Select from 'react-select';
 import {
   MDBContainer,
   MDBBtn,
@@ -17,17 +20,16 @@ import {
   MDBModalFooter,
   MDBNavbar,
 } from "mdb-react-ui-kit";
+import { cpSync } from 'fs'
 
 const Header = () => {
   // const [showBasic, setShowBasic] = useState(false);
   const [receiverEmail, setReceiverEmail] = useState('');
   const [basicModal, setBasicModal] = useState(false);
-  const [channelModal, setChannelModal] = useState(false);
-  const [channelName, setChannelName] = useState('');
   const headers = JSON.parse(localStorage.getItem('loginUser'));
 
+  //direct message
   const toggleShow = () => setBasicModal(!basicModal);
-  const channelModalShow =()=> setChannelModal(!channelModal);
   const handleGetEmail = () => {
     const userData = {
       access_token: headers.access_token,
@@ -54,6 +56,7 @@ const Header = () => {
           status: 'online',
           receiver_id: getID,
           receiver_email: receiverEmail,
+          class_name: receiverEmail,
           receiver_class: "User",
           access_token: headers.access_token,
           client: headers.client,
@@ -70,12 +73,92 @@ const Header = () => {
     })
   }
 
-  const handleCreateChannel = ()=>{
-    console.log('channel')
+  //channel
+  const userData = {
+    access_token: headers.access_token,
+    client: headers.client,
+    expiry: headers.expiry,
+    uid: headers.uid
   }
+
+  const [usersList, setUsersList] = useState([]);
+  const [runOnceGetUsers, setRunOnceGetUsers] = useState(false);
+  const callGetusers = () => {
+    if (!runOnceGetUsers) {
+      const users = getUsers(userData);
+      users.then(res => {
+        setUsersList(res.data);
+        setRunOnceGetUsers(true);
+      })
+    }
+  }
+  callGetusers();
+
+  const [userOptions, setUserOptions] = useState([])
+  const [runUserOption, setRunUserOption] = useState(false)
+  const saveUsersOption = () => {
+    if (usersList.length > 0 && !runUserOption) {
+      for (let i = 0; i < usersList.length; i++) {
+        const saveUsers = {
+          value: usersList[i].id,
+          label: usersList[i].email
+        }
+        userOptions.push(saveUsers);
+      }
+      setRunUserOption(true);
+    }
+  }
+  saveUsersOption();
+
+
+  const [channelModal, setChannelModal] = useState(false);
+  const [channelName, setChannelName] = useState('');
+  const channelModalShow = () => setChannelModal(!channelModal);
+
+  const [channelIds, setChannelIds] = useState([])
+
+  const handleSelectedIds = (e: { value: any }[]) => {
+    const getChannelIds = [];
+    if (e.length > 0) {
+      for (let i = 0; i < e.length; i++) {
+        getChannelIds.push(e[i].value);
+      }
+      setChannelIds(getChannelIds)
+    }
+  }
+
+
+  const handleCreateChannel = () => {
+    console.log('channels')
+    // console.log(channelName)
+    console.log(channelIds)
+    const channelDetails = {
+      access_token: headers.access_token,
+      client: headers.client,
+      expiry: headers.expiry,
+      uid: headers.uid,
+      name: channelName,
+      user_ids: channelIds
+    }
+
+    const response = createChannel(channelDetails)
+    console.log(response)
+    response.then(res => {
+      console.log(res);
+      if (res.data) {
+        setChannelName('');
+        setChannelModal(!channelModal)
+        location.reload();
+      }
+      if (res.errors) {
+        alert(res.errors[0])
+      }
+    })
+  }
+
   return (
     <>
-      <MDBNavbar expand='lg' light bgColor='light' className='sticky'>
+      <MDBNavbar expand='lg' light bgColor='light' className='sticky headerContainer'>
         <MDBContainer fluid>
           <nav aria-label='breadcrumb'>
             <a href='#' className='text-dark' color='light'>
@@ -120,7 +203,17 @@ const Header = () => {
               <MDBBtn className='btn-close' color='none' onClick={channelModalShow}></MDBBtn>
             </MDBModalHeader>
             <MDBModalBody>
-              <MDBInput label="channelName" id="channelName" onChange={(e) => setChannelName(e.target.value)} />
+              <MDBInput label="channelName" id="channelName" className="text-dark" value={channelName} onChange={(e) => setChannelName(e.target.value)} required />
+              <Select
+                defaultValue={[]}
+                isMulti
+                name="users"
+                options={userOptions}
+                className="basic-multi-select m-2 text-dark"
+                classNamePrefix="select"
+                onChange={handleSelectedIds}
+                required
+              />
             </MDBModalBody>
 
             <MDBModalFooter>

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { getDB, setDB } from '@/db/DBLayer';
 import { useEffect } from 'react';
+import Login from '../app/login/page.tsx';
 
 export default function Home() {
   
@@ -20,13 +21,16 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="text-center m-5">
-      <a href='/login' className=''>
-        <MDBBtn color='dark'>
-          Start
-        </MDBBtn>
-      </a>
-    </div>
+    // <div className="text-center m-5">
+    //   <a href='/login' className=''>
+    //     <MDBBtn color='dark'>
+    //       Start
+    //     </MDBBtn>
+    //   </a>
+    // </div>
+    <>
+    <Login />
+    </>
    
   
   )

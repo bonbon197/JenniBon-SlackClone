@@ -5,6 +5,7 @@ import { sendMessage } from '../../utils/APILayer'
 import { getUsers } from '../../utils/APILayer'
 import { getMessages } from '../../utils/APILayer'
 import '../components/chatbox.css';
+import Avatar from '../../../public/avatar.png'
 import Date from '../components/Date.js';
 import {
   MDBContainer,
@@ -25,12 +26,12 @@ const chatbox = () => {
   const [message, setMessage] = useState('');
   const headers = JSON.parse(localStorage.getItem('loginUser'));
   const activeChat = JSON.parse(localStorage.getItem('activeInChatBox'));
-  const [email, setEmail] = useState(activeChat.receiver_email);
+  const [classname, setEmail] = useState(activeChat.class_name);
 
   const [smUserData, setSMUserData] = useState({
     receiver_id: activeChat.receiver_id,
     receiver_email: activeChat.receiver_email,
-    receiver_class: "User",
+    receiver_class: activeChat.receiver_class,
     access_token: headers.access_token,
     client: headers.client,
     expiry: headers.expiry,
@@ -43,11 +44,16 @@ const chatbox = () => {
     emailExist = true;
   }
 
+
+  useEffect(()=>{
+
+  },[])
+
   const handleSendMess = () => {
     if (emailExist) {
       const SendMessUserData = {
         receiver_id: getID,
-        receiver_class: "User",
+        receiver_class: activeChat.receiver_class,
         body: message,
         access_token: headers.access_token,
         client: headers.client,
@@ -58,6 +64,7 @@ const chatbox = () => {
       console.log(response);
       response.then(res => {
         console.log(res.data);
+        console.log(getID + " - " + activeChat.receiver_class + " - " + message)
         const saveUpdatedChat = {
           id: res.data.id,
           body: res.data.body,
@@ -68,17 +75,19 @@ const chatbox = () => {
           },
           receiver: {
             id: getID,
-            email: activeChat.receiver_email
+            email: activeChat.class_name
           }
         }
         dataMesasage.push(saveUpdatedChat);
         setMessage('');
       })
-
       setRunOnce(false);
       callMessage();
     }
   }
+
+  setInterval(() =>
+  callGetMessage(), 5000);
 
   const [dataMesasage, setDataMesasage] = useState([]);
   const [runOnce, setRunOnce] = useState(false);
@@ -87,6 +96,7 @@ const chatbox = () => {
     if (!runOnce) {
       const getMessRes = getMessages(smUserData)
       getMessRes.then(GMres => {
+        console.log(GMres)
         setDataMesasage(GMres.data);
         setRunOnce(true);
         return GMres.data;
@@ -109,10 +119,10 @@ const chatbox = () => {
                       className="d-flex justify-content-between p-2"
                       style={{ borderBottom: "1px solid rgba(255,255,255,.3)" }}
                     >
-                      <p className="text-light small mb-0">
+                      <small className="text-light small mb-0">
                         <MDBIcon far icon="clock" /> <Date dateString={x.created_at} />
-                      </p>
-                      <p className="mb-0">{x.sender.email}</p>
+                      </small>
+                      <small className="mb-0">{x.sender.email}</small>
                     </MDBCardHeader>
                     <MDBCardBody>
                       <p className="mb-0">
@@ -120,32 +130,35 @@ const chatbox = () => {
                       </p>
                     </MDBCardBody>
                   </MDBCard>
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp"
+                  {/* <img
+                    // src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp"
+                    src="../../../public/avatar.png"
                     alt="avatar"
                     className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong"
                     width="60"
-                  />
+                  /> */}
+                  <MDBIcon far icon="user-circle" size='3x' />
                 </li>
               )
             } else {
               return (
                 <li className="d-flex justify-content-start mb-4" key={i}>
-                  <img
+                  {/* <img
                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
                     alt="avatar"
                     className="rounded-circle d-flex align-self-end me-3 shadow-1-strong"
                     width="60"
-                  />
+                  /> */}
+                  <MDBIcon far icon="user-circle" size='3x' />
                   <MDBCard className="mask-custom">
                     <MDBCardHeader
                       className="d-flex justify-content-between p-2"
                       style={{ borderBottom: "1px solid rgba(255,255,255,.3)" }}
                     >
-                      <p className="mb-0">{x.sender.email}</p>
-                      <p className="text-light small mb-0">
+                      <small className="mb-0">{x.sender.email}</small>
+                      <small className="text-light small mb-0">
                         <MDBIcon far icon="clock" /> <Date dateString={x.created_at} />
-                      </p>
+                      </small>
                     </MDBCardHeader>
                     <MDBCardBody>
                       <p className="mb-0">
@@ -168,12 +181,11 @@ const chatbox = () => {
 
       <MDBTypography listUnStyled className="text-white " >
         <li className="d-flex flex-row align-items-center mb-2 justify-content-center">
-          <h5>{email}</h5>
+        <MDBIcon fas icon="user-friends" size='1x' className='p-1 m-1'/>
+        {/* <MDBIcon fas icon="envelope me-3" size='lg' />  */}
+          <h5>{classname}</h5>
         </li>
         <div className='chatBoxContainer'>
-          <li className="d-flex flex-row align-items-center justify-content-center mb-4">
-            <MDBIcon fas icon="envelope me-3" size='lg' />
-          </li>
           {displaymessages}
         </div>
         <li className="mb-2">

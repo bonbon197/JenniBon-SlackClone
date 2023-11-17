@@ -19,7 +19,6 @@ async function createUser(userData: { email: string; password: string; password_
     return data;
 }
 
-
 //login. save the response headers somewhere to use in the sendMessage function
 async function loginUser(userData: { email: string; password: string; }) {
 
@@ -75,8 +74,8 @@ async function sendMessage(userData: { access_token: string; client: string; uid
 }
 
 //get messages. Get header data from the login response headers 
-async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id:string}) {
-    const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${userData.receiver_id}&receiver_class=User`, {
+async function getMessages(userData: { access_token: string; client: string; uid: number; expiry: Date; receiver_id:string;receiver_class:string}) {
+    const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${userData.receiver_id}&receiver_class=${userData.receiver_class}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -87,14 +86,14 @@ async function getMessages(userData: { access_token: string; client: string; uid
         },
     });
     const data = await response.json();
-    console.log(data)
+    // console.log(data)
         return data;
     
 }
 
 //create channel with members
 async function createChannel(userData: { access_token: string; client: string; uid: number; expiry: Date; name: string; user_ids: number; }) {
-    const response = await fetch(`${BASE_URL}channels`, {
+    const response = await fetch(`http://206.189.91.54/api/v1/channels`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -114,7 +113,7 @@ async function createChannel(userData: { access_token: string; client: string; u
 
 //get all user's channels
 async function getChannels(userData: { access_token: string; client: string; uid:number; expiry: Date; }) {
-    const response = await fetch(`${BASE_URL}channels`, {
+    const response = await fetch(`http://206.189.91.54/api/v1/channels`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -130,7 +129,7 @@ async function getChannels(userData: { access_token: string; client: string; uid
 
 //get channel details via channel id
 async function getChannelDetails(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: Date; }) {
-    const response = await fetch(`${BASE_URL}channels/${userData.channel_id}`, {
+    const response = await fetch(`http://206.189.91.54/api/v1/channels/${userData.channel_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -146,7 +145,7 @@ async function getChannelDetails(userData: { channel_id: number; access_token: s
 
 //add member to a channel
 async function addMember(userData: { channel_id: number; access_token: string; client: string; uid: number; expiry: Date; id: number; member_id: number; }) {
-    const response = await fetch(`${BASE_URL}channels/${userData.channel_id}/add_member`, {
+    const response = await fetch(`http://206.189.91.54/api/v1/channel/add_member`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -156,7 +155,7 @@ async function addMember(userData: { channel_id: number; access_token: string; c
             'expiry': userData.expiry.toString(),
         },
         body: JSON.stringify({
-            "id": userData.id,
+            "id": userData.channel_id,
             "member_id": userData.member_id,
         })
     });

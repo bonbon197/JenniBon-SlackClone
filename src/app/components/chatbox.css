@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Tourney:wght@900&display=swap');
+
+
+.sidebarContainer, .headerContainer{
+    font-family: 'Tourney', sans-serif !important;
+}
+
+
 .sticky{
   position: fixed;
   top: 0;
@@ -12,19 +20,22 @@
     /* fallback for old browsers */
     background: #fccb90;
   
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(
+
+    /* background: -webkit-linear-gradient(
       to bottom right,
       rgba(252, 203, 144, 1),
       rgba(213, 126, 235, 1)
     );
   
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     background: linear-gradient(
       to bottom right,
       rgba(252, 203, 144, 1),
       rgba(213, 126, 235, 1)
-    );
+    ); */
+
+    background: black !important;
+    color: white !important;
   }
   
   .mask-custom {
@@ -47,6 +58,59 @@
       overflow-y: auto;
       text-align:justify;
 
+  }
+
+  .scrollcss{
+    margin:4px, 4px;
+      padding:4px;
+      /* background-color: green; */
+      /* width: 500px; */
+      height: 450px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-align:justify;
+  }
+  .sidebarTab{
+    color: white !important;
+    background-color: rgba(24, 24, 16, 0.2) !important;
+    /* background: rgba(24, 24, 16, 0.2); */
+    border-radius: 2em !important;
+  }
+  .sidebarTab:hover{
+    color: white !important;
+    background-color: rgba(24, 24, 16, 0.2) !important;
+    /* background: rgba(24, 24, 16, 0.2); */
+    border-radius: 2em;
+    border-color:white !important;
+  }
+  .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+    color: white !important;
+    background-color: rgba(24, 24, 16, 0.2) !important;
+    /* background: rgba(24, 24, 16, 0.2); */
+    border-radius: 2em;
+    border-color:white !important;
+
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(24, 24, 16, 0.2); 
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(24, 24, 16, 0.2); 
   }
 
  
