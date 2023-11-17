@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { sendMessage } from '../../utils/APILayer'
 import { getUsers } from '../../utils/APILayer'
 import { getMessages } from '../../utils/APILayer'
+import { getDB } from '../../db/DBLayer'
 import '../components/chatbox.css';
 import Avatar from '../../../public/avatar.png'
 import Date from '../components/Date.js';
@@ -21,12 +22,13 @@ import {
   MDBInput,
 } from "mdb-react-ui-kit";
 import { getEventListeners } from 'events';
+import { createLocalPrivateMessagesHistory } from '@/utils/CreateLocal';
+
 
 const chatbox = () => {
   const [message, setMessage] = useState('');
-  const headers = JSON.parse(localStorage.getItem('loginUser'));
-  const activeChat = JSON.parse(localStorage.getItem('activeInChatBox'));
-  const [classname, setEmail] = useState(activeChat.class_name);
+  const { session: headers, session: activeChat } = getDB();
+  const [email, setEmail] = useState(activeChat.receiver_email);
 
   const [smUserData, setSMUserData] = useState({
     receiver_id: activeChat.receiver_id,
@@ -44,7 +46,6 @@ const chatbox = () => {
     emailExist = true;
   }
 
-
   useEffect(()=>{
 
   },[])
@@ -60,6 +61,7 @@ const chatbox = () => {
         expiry: headers.expiry,
         uid: headers.uid
       }
+      createLocalPrivateMessagesHistory(SendMessUserData);
       const response = sendMessage(SendMessUserData);
       console.log(response);
       response.then(res => {
