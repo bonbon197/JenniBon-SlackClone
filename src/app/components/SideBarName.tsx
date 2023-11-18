@@ -277,7 +277,26 @@ const sidebar = () => {
 
   displayCreatedChannel();
 
+  // const activeChat = JSON.parse(localStorage.getItem('activeInChatBox'));
 
+  // const [smUserData, setSMUserData] = useState({
+  //   receiver_id: activeChat.receiver_id,
+  //   receiver_email: activeChat.receiver_email,
+  //   receiver_class: activeChat.receiver_class,
+  //   access_token: headers.access_token,
+  //   client: headers.client,
+  //   expiry: headers.expiry,
+  //   uid: headers.uid
+  // });
+
+  // let getID = '';
+
+  // const [emailExist, setEmailExist] = useState(false);
+
+  // if (activeChat) {
+  //   getID = activeChat.receiver_id;
+  //   setEmailExist(true);
+  // }
 
   return (
     <>
